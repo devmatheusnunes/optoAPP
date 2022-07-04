@@ -1,6 +1,6 @@
 # OptoAPP (optoapp)
 
-Sistema de cadastro de cliente para Clínicas de Optometria
+customer registration system
 
 ## Install the dependencies
 ```bash

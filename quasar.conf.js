@@ -142,7 +142,7 @@ module.exports = configure(function (ctx) {
       manifest: {
         name: 'OptoAPP',
         short_name: 'OptoAPP',
-        description: 'Sistema de cadastro de cliente para Clínicas de Optometria',
+        description: 'customer registration system',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
