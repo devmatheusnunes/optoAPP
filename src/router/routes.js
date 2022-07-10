@@ -5,6 +5,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/AuthLayout.vue'),
     children: [
+      { path: '', name: 'loginDefault', component: () => import('pages/auth/Login.vue') },
       { path: 'login', name: 'login', component: () => import('pages/auth/Login.vue') },
       { path: 'Register', name: 'register', component: () => import('pages/auth/Register.vue') },
       { path: 'forgot-password', name: 'forgot-password', component: () => import('pages/auth/ForgotPassword.vue') },
@@ -18,6 +19,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
+      { path: 'me', name: 'me', component: () => import('pages/Me.vue') },
       { path: '', component: () => import('pages/Index.vue') }
     ]
   },

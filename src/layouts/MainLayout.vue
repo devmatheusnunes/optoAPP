@@ -12,10 +12,18 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          OptoAPP
         </q-toolbar-title>
 
-        <div>Quasar v1.0 (Dev)</div>
+        <q-btn-dropdown color="white" flat icon="settings">
+          <q-list>
+            <q-item clickable v-close-popup @click="handleLogout">
+              <q-item-section>
+                <q-item-label>Logout</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
 
