@@ -55,18 +55,37 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import useAuthUser from 'src/composables/UseAuthUser'
+import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 
 export default defineComponent({
   name: 'MainLayout',
 
   setup () {
     const leftDrawerOpen = ref(false)
+    const $q = useQuasar()
+    const router = useRouter()
+    const { logout } = useAuthUser()
+
+    const handleLogout = async () => {
+      $q.dialog({
+        title: 'Você está saindo',
+        message: 'Você deseja realmente sair?',
+        cancel: true,
+        persistent: true
+      }).onOk(async () => {
+        await logout()
+        router.replace({ name: 'login' })
+      })
+    }
 
     return {
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      },
+      handleLogout
     }
   }
 })

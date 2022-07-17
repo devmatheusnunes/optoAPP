@@ -50,7 +50,7 @@
             dense
             text-color="black"
             label="Esqueci a Senha"
-            to=""
+            to="forgot-password"
           />
         </q-card-sections>
 
@@ -79,7 +79,7 @@ export default defineComponent({
     const handleLogin = async () => {
       try {
         await login(form.value)
-        router.push({ name: 'me' })
+        router.replace({ name: 'me' })
       } catch (error) {
         alert(error.message)
       }
