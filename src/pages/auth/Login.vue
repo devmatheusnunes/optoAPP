@@ -14,11 +14,15 @@
             placeholder="E-mail"
             dense
             v-model="form.email"
+            type="email"
+            lazy-rules
+            :rules="[val => (val && val.length > 0) || 'Por favor, digite seu e-email']"
           >
             <template v-slot:prepend>
               <q-icon name="email" />
             </template>
           </q-input>
+
           <q-input
             class="q-mx-md q-mb-lg"
             outlined
@@ -26,9 +30,19 @@
             placeholder="Senha"
             dense
             v-model="form.password"
+            :type="isPwd ? 'password' : 'text'"
+            lazy-rules
+            :rules="[val => (val && val.length >= 6) || 'Por favor, digite sua senha']"
           >
             <template v-slot:prepend>
               <q-icon name="lock" />
+            </template>
+            <template v-slot:append>
+              <q-icon
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwd = !isPwd"
+              />
             </template>
           </q-input>
         </q-card-sections>
@@ -60,8 +74,9 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import useAuthUser from 'src/composables/UseAuthUser'
+import useNotify from 'src/composables/UseNotify'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
@@ -69,24 +84,33 @@ export default defineComponent({
 
   setup () {
     const router = useRouter()
-    const { login } = useAuthUser()
+    const { login, isLoggedIn } = useAuthUser()
+    const { notifyError, notifySuccess } = useNotify()
 
     const form = ref({
       email: '',
       password: ''
     })
 
+    onMounted(() => {
+      if (isLoggedIn) {
+        router.push({ name: 'me' })
+      }
+    })
+
     const handleLogin = async () => {
       try {
         await login(form.value)
+        notifySuccess('Olá, Bem-vindo')
         router.replace({ name: 'me' })
       } catch (error) {
-        alert(error.message)
+        notifyError('E-mail ou senha inválidos')
       }
     }
 
     return {
       form,
+      isPwd: ref(true),
       handleLogin
     }
   }

@@ -11,12 +11,22 @@
             class="q-mx-md q-mb-lg"
             outlined
             rounded
-            placeholder="Nova Senha"
+            placeholder="Senha"
             dense
             v-model="password"
+            :type="isPwd ? 'password' : 'text'"
+            lazy-rules
+            :rules="[val => (val && val.length >= 6) || 'Sua senha deve conter pelo menos de 6 caracteres']"
           >
             <template v-slot:prepend>
               <q-icon name="lock" />
+            </template>
+            <template v-slot:append>
+              <q-icon
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwd = !isPwd"
+              />
             </template>
           </q-input>
         </q-card-sections>
@@ -49,6 +59,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import useAuthUser from 'src/composables/UseAuthUser'
+import useNotify from 'src/composables/UseNotify'
 import { useRouter, useRoute } from 'vue-router'
 
 export default defineComponent({
@@ -58,17 +69,24 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const { ResetPassword } = useAuthUser()
+    const { notifySuccess, notifyError } = useNotify()
     const token = route.query.token
 
     const password = ref('')
 
     const handlePasswordReset = async () => {
-      await ResetPassword(token, password.value)
-      router.push({ name: 'login' })
+      try {
+        await ResetPassword(token, password.value)
+        notifySuccess('Senha alterada com sucesso!')
+        router.push({ name: 'login' })
+      } catch (error) {
+        notifyError('Não conseguimos alterar a sua senha, por favor tente novamente')
+      }
     }
 
     return {
       password,
+      isPwd: ref(true),
       handlePasswordReset
     }
   }

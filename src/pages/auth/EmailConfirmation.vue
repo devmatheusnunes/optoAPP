@@ -6,10 +6,10 @@
       </q-card-sections>
 
       <q-card-sections>
-        <p class="text-body1 text-center">
+        <p class="text-body1 text-center q-px-md">
           Obrigado por se registrar!
         </p>
-        <p class="text-body1 text-center">
+        <p class="text-body1 text-center q-px-md">
           Por favor confirme seu email: <strong>{{ $route.query.email }}</strong>
         </p>
       </q-card-sections>
@@ -17,11 +17,11 @@
       <q-card-sections class="flex flex-center">
         <q-btn
           class="q-btn q-mb-lg"
-          flat
           rounded
           dense
-          text-color="red"
+          color="primary"
           label="Voltar"
+          to="/login"
         />
       </q-card-sections>
     </q-card>

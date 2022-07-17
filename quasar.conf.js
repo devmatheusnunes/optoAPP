@@ -47,7 +47,10 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
-
+      env: {
+        SUPABASE_URL: 'https://kmxrxybhnksrsjbuaoqo.supabase.co',
+        SUPABASE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtteHJ4eWJobmtzcnNqYnVhb3FvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTY5NjYyMjYsImV4cCI6MTk3MjU0MjIyNn0.oUZJTEoiuGKPTcqrI6CS1D4u-dRn_3v2WSzcAU_B54Q'
+      },
       // transpile: false,
       // publicPath: '/',
 
@@ -98,7 +101,8 @@ module.exports = configure(function (ctx) {
 
       // Quasar plugins
       plugins: [
-        'Dialog'
+        'Dialog',
+        'Notify'
       ]
     },
 
