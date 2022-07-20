@@ -19,8 +19,9 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: 'me', name: 'me', component: () => import('pages/Me.vue') },
-      { path: '', component: () => import('pages/Index.vue') }
+      { path: '', component: () => import('pages/Index.vue') },
+      { path: 'home', name: 'home', component: () => import('src/pages/Home.vue') },
+      { path: 'list-client', name: 'list-client', component: () => import('pages/client/ListClient.vue') }
     ],
     meta: {
       requiresAuth: true

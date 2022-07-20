@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          OptoAPP
+          OPTOApp
         </q-toolbar-title>
 
         <q-btn-dropdown color="white" flat icon="settings">
@@ -36,7 +36,7 @@
         <q-item-label
           header
         >
-          Essential Links
+          Menu
         </q-item-label>
 
         <EssentialLink
@@ -54,24 +54,45 @@
 </template>
 
 <script>
+import EssentialLink from 'components/EssentialLink.vue'
+const linksList = [
+  {
+    title: 'Home',
+    caption: '',
+    icon: 'mdi-home',
+    routeName: 'home'
+  },
+  {
+    title: 'Clientes',
+    caption: '',
+    icon: 'mdi-account',
+    routeName: 'list-client'
+  },
+  {
+    title: 'Exames',
+    caption: '',
+    icon: 'mdi-badge-account',
+    routeName: 'list-exams'
+  }
+]
 import { defineComponent, ref } from 'vue'
 import useAuthUser from 'src/composables/UseAuthUser'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-
 export default defineComponent({
   name: 'MainLayout',
-
+  components: {
+    EssentialLink
+  },
   setup () {
     const leftDrawerOpen = ref(false)
     const $q = useQuasar()
     const router = useRouter()
     const { logout } = useAuthUser()
-
     const handleLogout = async () => {
       $q.dialog({
-        title: 'Você está saindo',
-        message: 'Você deseja realmente sair?',
+        title: 'Logou',
+        message: 'Você realmente deseja sair?',
         cancel: true,
         persistent: true
       }).onOk(async () => {
@@ -79,8 +100,8 @@ export default defineComponent({
         router.replace({ name: 'login' })
       })
     }
-
     return {
+      essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value

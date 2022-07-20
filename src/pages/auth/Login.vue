@@ -94,7 +94,7 @@ export default defineComponent({
 
     onMounted(() => {
       if (isLoggedIn) {
-        router.push({ name: 'me' })
+        router.push({ name: 'home' })
       }
     })
 
@@ -102,7 +102,7 @@ export default defineComponent({
       try {
         await login(form.value)
         notifySuccess('Olá, Bem-vindo')
-        router.replace({ name: 'me' })
+        router.replace({ name: 'home' })
       } catch (error) {
         notifyError('E-mail ou senha inválidos')
       }
