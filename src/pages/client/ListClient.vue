@@ -7,16 +7,16 @@
             Lista de Clientes
           </span>
           <q-space />
-          <q-btn label="Adicionar" color="primary"/>
+          <q-btn label="Adicionar Cliente" color="primary" :to="{ name: 'form-client' }" />
         </template>
         <template v-slot:body-cell-actions="props">
           <q-td :props="props" class="q-gutter-x-sm">
-            <q-btn icon="mdi-pencil-outline" color="info" dense size="sm">
+            <q-btn icon="mdi-pencil-outline" color="info" dense size="sm" @click="handleEdit(props.row)">
               <q-tooltip>
                 Editar
               </q-tooltip>
             </q-btn>
-            <q-btn icon="mdi-delete-outline" color="negative" dense size="sm">
+            <q-btn icon="mdi-delete-outline" color="negative" dense size="sm" @click="handleRemoveClient(props.row)">
               <q-tooltip>
                 Deletar
               </q-tooltip>
@@ -39,6 +39,8 @@ const columns = [
 ]
 
 import { defineComponent, ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 import useApi from 'src/composables/UseApi'
 import useNotify from 'src/composables/UseNotify'
 
@@ -48,14 +50,38 @@ export default defineComponent({
   setup () {
     const clients = ref([])
     const loading = ref(true)
-    const { list } = useApi()
-    const { notifyError } = useNotify()
+    const router = useRouter()
+    const $q = useQuasar()
+    const table = 'client'
+    const { list, remove } = useApi()
+    const { notifyError, notifySuccess } = useNotify()
 
     const handleListClients = async () => {
       try {
         loading.value = true
-        clients.value = await list('client')
+        clients.value = await list(table)
         loading.value = false
+      } catch (error) {
+        notifyError(error.message)
+      }
+    }
+
+    const handleEdit = (client) => {
+      router.push({ name: 'form-client', params: { id: client.id } })
+    }
+
+    const handleRemoveClient = async (client) => {
+      try {
+        $q.dialog({
+          title: 'Você está tentando deletar um cliente',
+          message: `Deseja reamente remover o(a) cliente ${client.name}`,
+          cancel: true,
+          persistent: true
+        }).onOk(async () => {
+          await remove(table, client.id)
+          notifySuccess('Cliente removido com sucesso!')
+          handleListClients()
+        })
       } catch (error) {
         notifyError(error.message)
       }
@@ -68,7 +94,9 @@ export default defineComponent({
     return {
       columns,
       clients,
-      loading
+      loading,
+      handleEdit,
+      handleRemoveClient
     }
   }
 })

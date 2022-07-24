@@ -21,7 +21,8 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'home', name: 'home', component: () => import('src/pages/Home.vue') },
-      { path: 'list-client', name: 'list-client', component: () => import('pages/client/ListClient.vue') }
+      { path: 'list-client', name: 'list-client', component: () => import('pages/client/ListClient.vue') },
+      { path: 'form-client/:id?', name: 'form-client', component: () => import('src/pages/client/FormClient.vue') }
     ],
     meta: {
       requiresAuth: true

@@ -38,11 +38,11 @@ export default function useApi () {
   const update = async (table, form) => {
     const { data, error } = await supabase
       .from(table)
-      .update([
+      .update(
         {
           ...form
         }
-      ])
+      )
       .match({ id: form.id })
     if (error) throw error
     return data
